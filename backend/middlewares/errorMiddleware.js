@@ -6,4 +6,6 @@ const errorHandler = (err, req, res, next) => {
         error: "Something went wrong on the server side.",
         message: err.message
     })
+    next();
 }
+export default errorHandler;
