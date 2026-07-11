@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { Button, Input, Modal, Toast, Loader } from '@/components/ui';
 
 export default function Page() {
@@ -11,7 +9,7 @@ export default function Page() {
 
   return (
     <div className='flex flex-col items-center min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors w-full'>
-      <Navbar />
+      
       
       <div className='flex flex-col items-center justify-between p-8 space-y-8 w-full max-w-2xl flex-1'>
         <div className='text-center'>
@@ -47,8 +45,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-      
-      <Footer />
 
       <Modal 
         isOpen={isModalOpen} 

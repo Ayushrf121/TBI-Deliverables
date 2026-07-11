@@ -1,16 +1,102 @@
-import Footer from '@/components/Footer'
-import Navbar from '@/components/Navbar'
-import React from 'react'
+'use client'
+import React from 'react';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import Input from '../../components/Input';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import api from '../../components/API';
+import { useRouter } from 'next/navigation'; // Fixed: Changed from react-router-dom
 
-export default function page() {
-    return (
-        <div className='flex flex-col items-center '>
-            <Navbar />
-            <div className='flex flex-col items-center justify-between'>
-                <h1 className='text-2xl font-extrabold'>Login</h1>
-                <p>I am Login Page</p>
-            </div>
-            <Footer />
+export default function Page() { // Fixed: Capitalized component name
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const router = useRouter(); // Fixed: Using Next.js router
+
+  const handleSubmitByGoogle = async ({ credential }) => {
+    try {
+      const res = await axios.post(api + 'googleAuth', { credential });
+      if (res.data.success) {
+        alert(res.data.message);
+        localStorage.setItem("token", res.data.token);
+        router.push('/profile');
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
+    reset();
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post(api + 'login', data);
+      if (res.data.success) {
+        alert(res.data.message);
+        localStorage.setItem("token", res.data.token);
+        router.push('/profile'); 
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
+  };
+
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <div className='flex flex-col items-center justify-center m-4 p-4 gap-4'>
+      <h1 className='text-4xl font-bold text-blue-950'>Login</h1>
+      <form className='flex flex-col p-6 bg-mauve-200 border-2 gap-8' onSubmit={handleSubmit(onSubmit)}>
+        
+        <div className='flex gap-3 items-center'>
+          <label htmlFor="email">Email: </label>
+          <Input 
+            className='outline-none bg-gray-200 rounded-2xl p-2 shadow-md shadow-black' 
+            type="email" 
+            placeholder='Email' 
+            id='email' 
+            registerName='email' 
+            registerField={register} 
+            rules={{ required: { value: true, message: 'Email field required' } }} 
+          />
+          {errors.email && <span className="text-red-500">{errors.email.message}</span>}
         </div>
-    )
+
+        <div className='flex gap-3 items-center'>
+          <label htmlFor="password">Password: </label>
+          <Input 
+            className='outline-none bg-gray-200 rounded-2xl p-2 shadow-md shadow-black' 
+            type="password" 
+            placeholder='Password' 
+            id='password' 
+            registerName='password' 
+            registerField={register} 
+            rules={{ 
+              required: { value: true, message: 'Password required' }, 
+              minLength: { value: 8, message: 'Must be at least 8 characters' }, 
+              maxLength: { value: 20, message: "Can't be more than 20 characters" } 
+            }} 
+          />
+          {errors.password && <span className="text-red-500">{errors.password.message}</span>}
+        </div>
+
+        <GoogleLogin onSuccess={handleSubmitByGoogle} text='continue_with' shape='pill' width={300} theme='filled_blue' />
+        
+        <p>Didn't have an account ? <a href="/signup" className='text-blue-600 underline'>Signup</a></p>
+        
+        <button className='border-2 border-blue-500 font-bold text-white rounded-2xl px-7 py-3 bg-blue-400 active:bg-blue-500 shadow-2xs shadow-gray-500' type='submit'>
+          Submit
+        </button>
+      </form>
+    </div>
+    </GoogleOAuthProvider>
+  );
 }

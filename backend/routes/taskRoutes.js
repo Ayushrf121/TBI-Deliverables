@@ -1,4 +1,3 @@
-// backend/routes/taskRoutes.js
 import express from 'express';
 import { 
     getAllTasks, 
@@ -8,14 +7,15 @@ import {
     deleteTask, 
     searchTasks 
 } from '../controllers/taskController.js';
+import { requireAuth } from '../middlewares/authMiddleware.js'; 
 
 const router = express.Router();
 
-router.get('/', getAllTasks);
-router.get('/search', searchTasks); 
-router.get('/:id', getTaskById);
-router.post('/', createTask);
-router.put('/:id', updateTask);
-router.delete('/:id', deleteTask);
+router.get('/', requireAuth, getAllTasks);
+router.get('/search', requireAuth, searchTasks); 
+router.get('/:id', requireAuth, getTaskById);
+router.post('/', requireAuth, createTask);
+router.put('/:id', requireAuth, updateTask);
+router.delete('/:id', requireAuth, deleteTask);
 
 export default router;

@@ -9,10 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "axios": "^1.18.1",
     "next": "15.5.4",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "react-hook-form": "^7.81.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
