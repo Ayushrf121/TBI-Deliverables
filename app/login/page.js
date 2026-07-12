@@ -43,6 +43,10 @@ export default function Page() { // Fixed: Capitalized component name
       }
     } catch (error) {
       if (error.response) {
+        if (error.response.status === 429) {
+            alert("Too many login attempts. Please wait 15 minutes.");
+            return;
+        }
         alert(error.response.data.message);
       } else {
         console.log(error);
@@ -52,9 +56,9 @@ export default function Page() { // Fixed: Capitalized component name
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-        <div className='flex flex-col items-center justify-center m-4 p-4 gap-4'>
+        <div className='flex flex-col items-center justify-center m-4 p-4 gap-4 bg-gray-300'>
       <h1 className='text-4xl font-bold text-blue-950'>Login</h1>
-      <form className='flex flex-col p-6 bg-mauve-200 border-2 gap-8' onSubmit={handleSubmit(onSubmit)}>
+      <form className='flex flex-col p-6 bg-mauve-200 border-2 gap-8 rounded-2xl text-black bg-blue-200 shadow-2xl border-gray-400' onSubmit={handleSubmit(onSubmit)}>
         
         <div className='flex gap-3 items-center'>
           <label htmlFor="email">Email: </label>

@@ -20,13 +20,17 @@ export default function TaskPage() {
   const getAuthConfig = () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push('/login');
-      return null;
+        console.log("Route not accessible. Please login!");
+        router.push("/login");
+        return null;
     }
+
     return {
-      headers: { Authorization: `Bearer ${token}` }
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     };
-  };
+};
 
   const showNotification = (message, type = 'error') => {
     setToast({ show: true, message, type });

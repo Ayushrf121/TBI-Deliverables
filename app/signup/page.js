@@ -53,10 +53,10 @@ export default function Signup2() {
 
     return (
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-            <div className='flex flex-col items-center justify-center m-4 p-4 gap-4'>
+            <div className='flex flex-col items-center justify-center m-4 p-4 gap-4 bg-gray-300'>
                 <h1 className='text-4xl font-bold text-blue-950'>Signup</h1>
                 
-                <form className='flex flex-col p-6 bg-mauve-200 border-2 gap-6' onSubmit={handleSubmit(onSubmit)}>
+                <form className='flex flex-col p-6 bg-mauve-200 border-2 gap-8 rounded-2xl text-black bg-blue-200 shadow-2xl border-gray-400' onSubmit={handleSubmit(onSubmit)}>
                     
                     {/* Username Input Field */}
                     <div className='flex flex-col gap-1'>
