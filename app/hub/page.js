@@ -2,28 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-// Upgraded UI Sub-components for a Premium Presentation
-const CustomLoader = () => (
-  <div className="flex flex-col items-center justify-center p-8 space-y-3">
-    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-    <p className="text-xs font-semibold text-blue-400 tracking-wider uppercase animate-pulse">Syncing with Cluster...</p>
-  </div>
-);
-
-const CustomToast = ({ message, type, onClose }) => (
-  <div className={`fixed bottom-5 right-5 z-50 max-w-sm flex items-center gap-3 p-4 rounded-xl border shadow-xl backdrop-blur-md transition-all animate-slide-in ${
-    type === 'error' 
-      ? 'bg-red-950/80 border-red-800 text-red-200' 
-      : 'bg-emerald-950/80 border-emerald-800 text-emerald-200'
-  }`}>
-    <div className={`w-2 h-2 rounded-full ${type === 'error' ? 'bg-red-400' : 'bg-emerald-400'}`} />
-    <p className="text-sm font-medium flex-1">{message}</p>
-    <button onClick={onClose} className="text-xs opacity-50 hover:opacity-100 font-bold px-1">✕</button>
-  </div>
-);
+import { useRouter } from 'next/navigation';
+import CustomLoader from '@/components/CustomLoader';
+import CustomToast from '@/components/CustomToast';
 
 export default function TaskPage() {
+  const router = useRouter();
   const [tasks, setTasks] = useState([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,6 +16,18 @@ export default function TaskPage() {
 
   const API_URL = 'http://localhost:5000/api/tasks';
 
+  // Helper utility to safely construct the authenticated headers instance dynamically
+  const getAuthConfig = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push('/login');
+      return null;
+    }
+    return {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+  };
+
   const showNotification = (message, type = 'error') => {
     setToast({ show: true, message, type });
     setTimeout(() => setToast({ show: false, message: '', type: 'error' }), 4000);
@@ -39,13 +35,17 @@ export default function TaskPage() {
 
   // 1. GET All Tasks
   const fetchTasks = async () => {
+    const config = getAuthConfig();
+    if (!config) return;
+
     try {
       setLoading(true);
-      const response = await axios.get(API_URL);
+      const response = await axios.get(API_URL, config);
       if (response.data.success) {
         setTasks(response.data.tasks || []);
       }
     } catch (err) {
+      if (err.response?.status === 401) return router.push('/login');
       const errMsg = err.response?.data?.message || "Failed to load tasks from server.";
       showNotification(errMsg, 'error');
     } finally {
@@ -62,8 +62,11 @@ export default function TaskPage() {
     e.preventDefault();
     if (!newTaskTitle.trim()) return;
 
+    const config = getAuthConfig();
+    if (!config) return;
+
     try {
-      const response = await axios.post(API_URL, { task: newTaskTitle });
+      const response = await axios.post(API_URL, { task: newTaskTitle }, config);
       if (response.data.success) {
         setTasks(prev => [...prev, response.data.task]);
         setNewTaskTitle('');
@@ -77,8 +80,11 @@ export default function TaskPage() {
 
   // 3. PUT Toggle Task Completion Status
   const handleToggleComplete = async (id, currentStatus) => {
+    const config = getAuthConfig();
+    if (!config) return;
+
     try {
-      const response = await axios.put(`${API_URL}/${id}`, { isCompleted: !currentStatus });
+      const response = await axios.put(`${API_URL}/${id}`, { isCompleted: !currentStatus }, config);
       if (response.data.success) {
         setTasks(prev => prev.map(t => (t._id === id || t.id === id) ? response.data.task : t));
       }
@@ -89,8 +95,11 @@ export default function TaskPage() {
 
   // 4. DELETE Task
   const handleDeleteTask = async (id) => {
+    const config = getAuthConfig();
+    if (!config) return;
+
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/${id}`, config);
       setTasks(prev => prev.filter(t => t._id !== id && t.id !== id));
       showNotification("Document dropped from cluster.", "success");
     } catch (err) {
@@ -108,8 +117,11 @@ export default function TaskPage() {
       return;
     }
 
+    const config = getAuthConfig();
+    if (!config) return;
+
     try {
-      const response = await axios.get(`${API_URL}/search?q=${query}`);
+      const response = await axios.get(`${API_URL}/search?q=${query}`, config);
       if (response.data.success) {
         setTasks(response.data.tasks || []);
       }
@@ -120,8 +132,6 @@ export default function TaskPage() {
 
   return (
     <div className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col justify-center items-center p-4 sm:p-8 antialiased selection:bg-blue-500/30">
-      
-      {/* Dynamic Toast Alert Overlays */}
       {toast.show && (
         <CustomToast 
           message={toast.message} 
@@ -130,12 +140,9 @@ export default function TaskPage() {
         />
       )}
 
-      {/* Decorative High-Tech Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-b from-blue-500/10 to-transparent blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-8 items-start relative z-10">
-        
-        {/* Left Column: Bold Project Introduction Hero */}
         <div className="md:col-span-5 space-y-6 text-left pt-4 md:pt-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping" />
@@ -151,7 +158,6 @@ export default function TaskPage() {
             </p>
           </div>
 
-          {/* Micro-Metrics Display Panel */}
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800/80">
             <div className="p-3 rounded-xl bg-slate-900/40 border border-slate-900">
               <div className="text-xl font-mono font-bold text-blue-400">{tasks.length}</div>
@@ -166,10 +172,7 @@ export default function TaskPage() {
           </div>
         </div>
 
-        {/* Right Column: Premium App Interactive Control Board */}
         <div className="md:col-span-7 w-full bg-slate-900/50 border border-slate-800/80 rounded-2xl p-6 shadow-2xl backdrop-blur-xl space-y-6">
-          
-          {/* Header Bar */}
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
             <div>
               <h2 className="text-base font-bold text-white">Cluster Records Viewport</h2>
@@ -180,7 +183,6 @@ export default function TaskPage() {
             </span>
           </div>
 
-          {/* Interactive Regex Filtering Search Block */}
           <div className="space-y-2">
             <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Live Regular Expression Filter</label>
             <div className="relative">
@@ -195,7 +197,6 @@ export default function TaskPage() {
             </div>
           </div>
 
-          {/* Task Form Injection Interface */}
           <form onSubmit={handleCreateTask} className="space-y-2">
             <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Initialize Document Structure</label>
             <div className="flex gap-2">
@@ -215,7 +216,6 @@ export default function TaskPage() {
             </div>
           </form>
 
-          {/* Conditional Layout Component Output Pipeline */}
           <div className="space-y-3 pt-2">
             <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Rendered Documents</h3>
             
@@ -275,7 +275,6 @@ export default function TaskPage() {
               </ul>
             )}
           </div>
-
         </div>
       </div>
     </div>
