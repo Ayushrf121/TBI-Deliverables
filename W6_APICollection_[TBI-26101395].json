@@ -1,0 +1,74 @@
+// All tasks
+{
+  "success": true,
+  "message": "Sending the list from List Array.",
+  "tasks": [
+    {
+      "id": 6,
+      "task": "Ayush Good boy",
+      "isCompleted": false
+    },
+    {
+      "id": 7,
+      "task": "Hy AYush",
+      "isCompleted": false
+    }
+  ]
+}
+// one task
+{
+  "success": true,
+  "task": {
+    "id": 6,
+    "task": "Ayush Good boy",
+    "isCompleted": false
+  }
+}
+
+// search query
+{
+  "success": true,
+  "tasks": [
+    {
+      "id": 6,
+      "task": "Ayush Good boy",
+      "isCompleted": false
+    },
+    {
+      "id": 7,
+      "task": "Hy AYush",
+      "isCompleted": false
+    }
+  ]
+}
+// update task
+{
+  "success": true,
+  "task": {
+    "id": 6,
+    "task": "Ayush Good boy",
+    "isCompleted": false
+  }
+}
+// delete task
+{
+  "success": true,
+  "task": {
+    "id": 6,
+    "task": "Ayush Good boy",
+    "isCompleted": false
+  }
+}
+
+// Signup api test
+{
+  "success": true,
+  "message": "Signup Successfull"
+}
+
+// login API
+{
+  "success": true,
+  "message": "Login Successful",
+  "JWTtoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNTNiOGI2MmMzNmU0MGU4YTU2YjQ2NCIsImVtYWlsIjoicGl5dXNoQGdtYWlsLmNvbSIsImlhdCI6MTc4Mzg3MTc1NiwiZXhwIjoxNzg0NDc2NTU2fQ.nQQ38Hv6wcmF2-dpnQxU5uaPTbgj0FNlEj1BajRJhjE"
+}

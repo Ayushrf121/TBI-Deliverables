@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import connectDB from './config/db.js';
 import userDB from './config/userDb.js';
 import passport from 'passport';
+import aiRoutes from './routes/aiRoutes.js';
 import './config/passportConfig.js';
 dotenv.config();
 const app = express();
@@ -22,6 +23,9 @@ app.get('/',(req,res)=>{
 
 app.use('/api/tasks', taskRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/auth', userRoutes);
+app.use('/api/ai', aiRoutes);
 app.use(errorHandler);
 app.listen(port,()=>{
     console.log(`listening at the port ${port}`);

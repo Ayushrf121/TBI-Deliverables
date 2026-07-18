@@ -45,7 +45,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-gray-900 text-white py-4 px-6 flex justify-between items-center border-b border-gray-800">
+    <nav className="sticky top-0 w-full bg-gray-900 text-white py-4 px-6 flex justify-between items-center border-b border-gray-800">
       <div className="text-xl font-bold tracking-tight">
         <Link href="/" className="hover:text-blue-400 transition">
           DevApp

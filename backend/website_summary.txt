@@ -1,0 +1,50 @@
+Website Summary
+
+app/
+- page.js: Main landing page that acts as the entry point of the application. It imports the Hero component and floating AI Chatbot action link.
+- layout.js: Root layout responsible for wrapping pages with common layout structures and metadata.
+- globals.css: Contains global CSS rules used throughout the application.
+- ai/page.js: Dedicated interactive chat panel workspace for the TBI SIP26 AI Assistant.
+- dashboard/page.jsx: Verification panel dashboard layout rendering custom modular elements for UI consistency.
+- login/: Form authentication page containing entry options for credential verification.
+- signup2/page.jsx: User registration form featuring validation, hook forms, and Google OAuth bindings.
+- profile/page.jsx: Protected client profile extraction dashboard reading active JWT payload states.
+
+components/
+Reusable UI layout files supporting frontend single page application states.
+- Input.jsx: Form input wrapper tracking React Hook Form registers and error boundaries.
+- API.js: Centralized base URL configuration mapping targeting local and cluster node destinations.
+
+backend/
+Express.js REST API server engine architecture.
+
+config/
+- db.js: Establishes the primary MongoDB cluster data channel connection for task models.
+- userDb.js: Establishes a secondary database pipeline connection for security and tracking records.
+- passportConfig.js: Instantiates the LocalStrategy structure mapping authentication pipelines.
+
+controllers/
+- authController.js: Orchestrates local signup, standard logins, and Google OAuth single sign-on token distributions.
+- taskController.js: Processes CRUD actions and optimized RegExp search strings over stored tasks.
+- aiController.js: Manages incoming chat sequences via the Google Generative AI module.
+
+middlewares/
+- authMiddleware.js: Validates incoming request headers using standard Bearer JWT structures.
+- authValidation.js: Leverages express-validator arrays to capture request body parameters.
+- errorMiddleware.js: Collects server-side call stack errors to return uniform JSON notifications.
+- rateLimiter.js: Implements explicit transaction windows restricting authentication endpoint flooding.
+
+models/
+- userModel.js: Implements structural boundaries for active user metadata profiles.
+- taskModel.js: Outlines properties defining tracking records.
+
+routes/
+- userRoutes.js: Exposes registration, login, and single sign-on Google endpoints.
+- taskRoutes.js: Exposes strict authenticated query patterns mapping CRUD resources.
+- aiRoutes.js: Handles incoming prompt validation configurations.
+
+index.js
+Initializes the root Express instance, opens server port configurations, and runs database connection routines.
+
+public/
+Stores static visual assets including chatbotImage.webp.
