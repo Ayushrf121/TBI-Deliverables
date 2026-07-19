@@ -21,7 +21,6 @@ export default function Page() {
 
         try {
             setLoading(true);
-            // Append the user's question to the chat display instantly
             setChatLog((prev) => [...prev, { role: 'user', text: data.askAI }]);
             
             const res = await axios.post('http://localhost:5000/api/ai/chat', 
@@ -49,7 +48,6 @@ export default function Page() {
                     <p className="text-xs text-slate-400">Ask anything about anything related to the TBI SIP26</p>
                 </div>
 
-                {/* Main Chat Conversation Viewport Box */}
                 <div className='w-full h-96 bg-slate-900 border border-slate-800 rounded-2xl p-4 overflow-y-auto flex flex-col gap-3 shadow-inner' aria-label='Main Chat Box'>
                     {chatLog.length === 0 && (
                         <div className="text-center text-slate-500 italic my-auto text-sm">
