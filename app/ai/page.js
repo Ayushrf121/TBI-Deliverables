@@ -1,3 +1,4 @@
+// Ai  page for the searching content about the website not for the another one.
 'use client'
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
