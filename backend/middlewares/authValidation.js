@@ -28,7 +28,7 @@ export const validateSignup = [
         min:6
     }).withMessage("Password must be at least 6 characters long"),
 
-    validateResults // Catches the errors if any of the above fails
+    validateResults 
 ];
 
 export const validateLogin = [
