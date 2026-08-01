@@ -73,7 +73,7 @@ export default function Page() {
       >
         <p className="text-sm">
           Modal rendering successfully context verification active. Captured state: 
-          <span className="block font-bold mt-2 text-blue-600">"{textVal || 'Field Empty'}"</span>
+          <span className="block font-bold mt-2 text-blue-600">&quot;{textVal || 'Field Empty'}&quot;</span>
         </p>
       </Modal>
 
