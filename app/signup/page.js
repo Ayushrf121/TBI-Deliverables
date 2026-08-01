@@ -6,132 +6,152 @@ import api from '../../components/API';
 import { GoogleLogin } from '@react-oauth/google'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link'; 
+import Link from 'next/link';
 import axios from 'axios';
 
 export default function Signup2() {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const router = useRouter();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const router = useRouter();
 
-    const handleSubmitByGoogle = async ({ credential }) => {
-        try {
-            const res = await axios.post(api + 'googleAuth', { credential });
-            if (res.data.success) {
-                alert(res.data.message);
-                localStorage.setItem("token", res.data.token);
-                router.push('/profile');
-            } else {
-                alert(res.data.message);
-            }
-        } catch (error) {
-            if (error.response) {
-                alert(error.response.data.message)
-            } else {
-                console.log(error);
-            }
-        }
-        reset();
+  const handleSubmitByGoogle = async ({ credential }) => {
+    try {
+      const res = await axios.post(api + 'googleAuth', { credential });
+      if (res.data.success) {
+        alert(res.data.message);
+        localStorage.setItem("token", res.data.token);
+        router.push('/profile');
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message)
+      } else {
+        console.log(error);
+      }
     }
+    reset();
+  }
 
-    const onSubmit = async (data) => {
-        try {
-            const res = await axios.post(api + 'register', data);
-            if (res.data.success) {
-                alert(res.data.message);
-                router.push('/login');
-            } else {
-                alert(res.data.message);
-            }
-        } catch (error) {
-            if (error.response) {
-                alert(error.response.data.message)
-            } else {
-                console.log(error);
-            }
-        }
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post(api + 'register', data);
+      if (res.data.success) {
+        alert(res.data.message);
+        router.push('/login');
+      } else {
+        alert(res.data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message)
+      } else {
+        console.log(error);
+      }
     }
+  }
 
-    return (
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-            <div className='flex flex-col items-center justify-center m-4 p-4 gap-4 bg-gray-300'>
-                <h1 className='text-4xl font-bold text-blue-950'>Signup</h1>
-                
-                <form className='flex flex-col p-6 bg-mauve-200 border-2 gap-8 rounded-2xl text-black bg-blue-200 shadow-2xl border-gray-400' onSubmit={handleSubmit(onSubmit)}>
-                    
-                    {/* Username Input Field */}
-                    <div className='flex flex-col gap-1'>
-                        <div className='flex gap-3 items-center'>
-                            <label htmlFor="name">Username: </label>
-                            <Input 
-                                className='outline-none bg-gray-200 rounded-2xl p-2 shadow-md shadow-black' 
-                                type="text" 
-                                placeholder='Username' 
-                                id='name' 
-                                registerName='name' 
-                                registerField={register} 
-                                rules={{
-                                    required: { value: true, message: 'Name field required' }, 
-                                    minLength: { value: 3, message: 'Must be at least 3 characters' }, 
-                                    maxLength: { value: 30, message: "Can't be more than 30 characters" }
-                                }} 
-                            />
-                        </div>
-                        {errors.name && <span className="text-xs text-red-500 font-semibold pl-20">{errors.name.message}</span>}
-                    </div>
+  const inputClass =
+    'w-full outline-none bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all';
 
-                    {/* Email Input Field */}
-                    <div className='flex flex-col gap-1'>
-                        <div className='flex gap-3 items-center'>
-                            <label htmlFor="email">Email: </label> {/* ✅ Fix: Corrected htmlFor */}
-                            <Input 
-                                className='outline-none bg-gray-200 rounded-2xl p-2 shadow-md shadow-black' 
-                                type="email" 
-                                placeholder='Email' 
-                                id='email' 
-                                registerName='email' 
-                                registerField={register} 
-                                rules={{ required: { value: true, message: 'Email field required' } }} 
-                            />
-                        </div>
-                        {errors.email && <span className="text-xs text-red-500 font-semibold pl-20">{errors.email.message}</span>}
-                    </div>
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <div className="min-h-[calc(100vh-8rem)] w-full flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 py-12 transition-colors">
+        <div className="w-full max-w-md bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-lg dark:shadow-2xl p-8 space-y-6">
+          <div className="text-center space-y-1">
+            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">Create your account</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Join to start building with the SIP program</p>
+          </div>
 
-                    {/* Password Input Field */}
-                    <div className='flex flex-col gap-1'>
-                        <div className='flex gap-3 items-center'>
-                            <label htmlFor="password">Password: </label> {/* ✅ Fix: Corrected htmlFor */}
-                            <Input 
-                                className='outline-none bg-gray-200 rounded-2xl p-2 shadow-md shadow-black' 
-                                type="password" 
-                                placeholder='Password' 
-                                id='password' 
-                                registerName='password' 
-                                registerField={register} 
-                                rules={{
-                                    required: { value: true, message: 'Password required' }, 
-                                    minLength: { value: 8, message: 'Must be at least 8 characters' }, 
-                                    maxLength: { value: 20, message: "Can't be more than 20 characters" }
-                                }} 
-                            />
-                        </div>
-                        {errors.password && <span className="text-xs text-red-500 font-semibold pl-20">{errors.password.message}</span>}
-                    </div>
-
-                    <GoogleLogin
-                        onSuccess={handleSubmitByGoogle}
-                        text='signup_with'
-                        shape='pill'
-                        width={300}
-                        theme='filled_blue'
-                    />
-
-                    <p>Already have an account? <Link href="/login" className='text-blue-600 underline'>Login</Link></p>
-                    
-                    <button className='border-2 border-blue-500 font-bold text-white rounded-2xl px-7 py-3 bg-blue-400 active:bg-blue-500 shadow-2xs shadow-gray-500' type='submit'>
-                        Submit
-                    </button>
-                </form>
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="name" className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                Username
+              </label>
+              <Input
+                className={inputClass}
+                type="text"
+                placeholder="Your username"
+                id="name"
+                registerName="name"
+                registerField={register}
+                rules={{
+                  required: { value: true, message: 'Name field required' },
+                  minLength: { value: 3, message: 'Must be at least 3 characters' },
+                  maxLength: { value: 30, message: "Can't be more than 30 characters" }
+                }}
+              />
+              {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
             </div>
-        </GoogleOAuthProvider>
-    )
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="email" className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                Email
+              </label>
+              <Input
+                className={inputClass}
+                type="email"
+                placeholder="you@example.com"
+                id="email"
+                registerName="email"
+                registerField={register}
+                rules={{ required: { value: true, message: 'Email field required' } }}
+              />
+              {errors.email && <span className="text-xs text-red-500">{errors.email.message}</span>}
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="password" className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                Password
+              </label>
+              <Input
+                className={inputClass}
+                type="password"
+                placeholder="••••••••"
+                id="password"
+                registerName="password"
+                registerField={register}
+                rules={{
+                  required: { value: true, message: 'Password required' },
+                  minLength: { value: 8, message: 'Must be at least 8 characters' },
+                  maxLength: { value: 20, message: "Can't be more than 20 characters" }
+                }}
+              />
+              {errors.password && <span className="text-xs text-red-500">{errors.password.message}</span>}
+            </div>
+
+            <button
+              className="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold rounded-xl px-6 py-2.5 transition-all shadow-md"
+              type="submit"
+            >
+              Sign up
+            </button>
+
+            <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800" />
+              or
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-800" />
+            </div>
+
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleSubmitByGoogle}
+                text="signup_with"
+                shape="pill"
+                width={300}
+                theme="filled_blue"
+              />
+            </div>
+
+            <p className="text-center text-sm text-slate-500 dark:text-slate-400">
+              Already have an account?{' '}
+              <Link href="/login" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">
+                Log in
+              </Link>
+            </p>
+          </form>
+        </div>
+      </div>
+    </GoogleOAuthProvider>
+  )
 }

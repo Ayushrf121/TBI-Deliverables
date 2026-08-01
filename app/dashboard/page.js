@@ -22,22 +22,22 @@ export default function Page() {
   // Prevent view flashing before redirect completes
   if (isCheckingAuth) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-slate-950">
         <Loader size="medium" />
-        <p className="text-xs font-medium text-gray-400 mt-2">Checking Credentials...</p>
+        <p className="text-xs font-medium text-slate-400 mt-2">Checking Credentials...</p>
       </div>
     );
   }
 
   return (
-    <div className='flex flex-col items-center min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors w-full'>
+    <div className='flex flex-col items-center min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white transition-colors w-full'>
       <div className='flex flex-col items-center justify-between p-8 space-y-8 w-full max-w-2xl flex-1'>
         <div className='text-center'>
           <h1 className='text-3xl font-extrabold mb-2'>Dashboard</h1>
         </div>
 
-        <div className="w-full border border-gray-200 dark:border-gray-800 rounded-xl p-6 space-y-6 bg-gray-50 dark:bg-gray-950 shadow-sm">
-          <h2 className="text-lg font-bold border-b pb-2 dark:border-gray-800">UI Component Verification</h2>
+        <div className="w-full border border-slate-200 dark:border-slate-800 rounded-xl p-6 space-y-6 bg-slate-50 dark:bg-slate-900 shadow-sm">
+          <h2 className="text-lg font-bold border-b pb-2 dark:border-slate-800">UI Component Verification</h2>
           
           <Input 
             label="Library Input Demo Field"
@@ -59,8 +59,8 @@ export default function Page() {
             />
           </div>
 
-          <div className="flex flex-col items-center justify-center pt-4 border-t dark:border-gray-800">
-            <span className="text-xs font-semibold text-gray-400 mb-2">Spinner State Element:</span>
+          <div className="flex flex-col items-center justify-center pt-4 border-t dark:border-slate-800">
+            <span className="text-xs font-semibold text-slate-400 mb-2">Spinner State Element:</span>
             <Loader size="medium" />
           </div>
         </div>
