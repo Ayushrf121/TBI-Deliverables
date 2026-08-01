@@ -1,2 +1,2 @@
-const api = 'http://localhost:5000/api/auth/';
+const api = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/`;
 export default api;
