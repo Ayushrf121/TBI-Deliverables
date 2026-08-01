@@ -97,7 +97,7 @@ export default function Page() {
                 rules={{
                   required: { value: true, message: 'Password required' },
                   minLength: { value: 8, message: 'Must be at least 8 characters' },
-                  maxLength: { value: 20, message: "Can't be more than 20 characters" },
+                  maxLength: { value: 20, message: "Can&apos;t be more than 20 characters" },
                 }}
               />
               {errors.password && <span className="text-xs text-red-500">{errors.password.message}</span>}
@@ -121,7 +121,7 @@ export default function Page() {
             </div>
 
             <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <a href="/signup" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">
                 Sign up
               </a>

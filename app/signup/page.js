@@ -78,7 +78,7 @@ export default function Signup2() {
                 rules={{
                   required: { value: true, message: 'Name field required' },
                   minLength: { value: 3, message: 'Must be at least 3 characters' },
-                  maxLength: { value: 30, message: "Can't be more than 30 characters" }
+                  maxLength: { value: 30, message: 'Cannot be more than 30 characters' }
                 }}
               />
               {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
@@ -114,7 +114,7 @@ export default function Signup2() {
                 rules={{
                   required: { value: true, message: 'Password required' },
                   minLength: { value: 8, message: 'Must be at least 8 characters' },
-                  maxLength: { value: 20, message: "Can't be more than 20 characters" }
+                  maxLength: { value: 20, message: 'Cannot be more than 20 characters' }
                 }}
               />
               {errors.password && <span className="text-xs text-red-500">{errors.password.message}</span>}
